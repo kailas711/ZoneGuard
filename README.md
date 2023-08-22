@@ -15,10 +15,13 @@ This web app has been developed as part of my group project in Forge , using the
 
 * Remember me – Cookie Option, users don’t have to provide credentials every time they hit the site
 
-* Forgot Password – Users can easily retrieve their password if they forget it 
+* Forgot Password – Users can easily retrieve their password if they forget it
+  
 * Admin Panel – admin can CRUD users
 
-* Integrate CCTV/IP stream for AI based object detection and alarm for industrial saftey 
+* Integrate CCTV/IP stream for AI based object detection and alarm for industrial saftey
+
+![image](https://github.com/kailas711/Boundary_Area_Mapping/assets/89206677/1ff76838-1162-44d0-8083-63ff4d7ac493)
 
 ### Quick Start
 To get this project up and running locally on your computer follow the following steps.
