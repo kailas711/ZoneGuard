@@ -1,0 +1,163 @@
+{% extends "users/base.html" %}
+{% block title %} Home Page {% endblock title%}
+{% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        h1 {
+            display: inline-block;
+            color: white;
+            margin-left: 5vw;
+            margin-top: 2vh;
+            cursor: pointer;
+            font-size: 4vw;
+            padding: 0;
+            line-height: 1;
+        }
+
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('https://png.pngtree.com/background/20210716/original/pngtree-black-glitter-neon-lines-abstract-background-picture-image_1344492.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: blur(5px);
+        }
+
+        .get-started-button {
+            position: fixed;
+            bottom: 24vh;
+            left: 72vw;
+            background-color: 415368;
+            color: black;
+            border-radius: 2em;
+            border: none;
+            padding: 2vh 4vw;
+            font-size: 1vw;
+            cursor: pointer;
+        }        
+        .profile-button {
+            position: fixed;
+            top: 2vh;
+            right: 14vw;
+            background-color:415368;
+            color: black;
+            border: none;
+            border-radius: 2em;
+            padding: 1vh 2vw;
+            font-size: 1vw;
+            cursor: pointer;
+        }
+        .sign-in-button{
+            position: fixed;
+            top: 2vh;
+            right: 4vw;
+            background-color: 415368;
+            color: black;
+            border: none;
+            border-radius: 2em;
+            padding: 1vh 2vw;
+            font-size: 1vw;
+            cursor: pointer;
+        }
+       .log-out-button {
+            position: fixed;
+            top: 2vh;
+            right: 4vw;
+            background-color: 415368;
+            color: black;
+            border: none;
+            border-radius: 2em;
+            padding: 1vh 2vw;
+            font-size: 1vw;
+            cursor: pointer;
+        }
+
+        .gif-container {
+            position: fixed;
+            top: 30vh;
+            left: -3vw;
+            width: 50vw;
+            height: auto;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .gif-container img {
+            width: 80%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .quote-container {
+            position: absolute;
+            top: 37vh;
+            left: 63vw;
+            transform: translateY(-50%);
+            font-size: 4vw;
+            line-height: 1.2;
+            margin-left: 2vw;
+            color: #f9f5f5;
+        }
+
+        .quote-line2 {
+            display: block;
+            margin-top: 0px;
+            margin-left: 0px;
+            font: optional;
+            font-size: 4vw;
+            color: #8844FF;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        .about {
+            position: absolute;
+            width: 43vw;
+            top: 58vh;
+            left: 56vw;
+            transform: translateY(-50%);
+            font-size: 1.5vw;
+            line-height: 1.2;
+            color: #f9f5f5;
+            text-align: center;
+        }
+    </style>
+    <title>Boundary Area Mapping</title>
+</head>
+<body>
+<a href="{% url 'users-home' %}">
+    <h1>Boundary Area Mapping</h1>
+</a>
+<div class="background-container"></div>
+{% if user.is_authenticated %}
+    <button class="log-out-button" onclick="location.href='{% url 'logout' %}'"><b>Log out</b></button>
+    <button class="profile-button" onclick="location.href='{% url 'users-profile' %}'"><b>Profile</b></button>
+    <button class="get-started-button" onclick="location.href='{% url 'livestream' %}'"><b>Get Started</b></button>
+{% else %}
+    <button class="sign-in-button" onclick="location.href='{% url 'login' %}'"><b>Sign in</b></button>
+{% endif %}
+<div class="gif-container">
+    <img src='https://storage.googleapis.com/deepnote-publishing-bucket/thumb/281704bd-67a3-4631-b28f-2d989f188fe5-thumb.gif' alt="Not found!!!">
+</div>
+<div class="quote-container">
+    <span class="quote-line1">Stay VIGILANT,</span>
+    <span class="quote-line2">Stay SECURE!</span>
+</div>
+<div class="about">
+    <p>The application is designed to enhance industrial safety by detecting potential hazards through live video streams. 
+      It utilizes YOLOv5, a state-of-the-art object detection model, to analyze 
+      frames from the video and raise an alarm in case of any detected objects within a specified bounding box.</p>
+</div>
+</body>
+</html>
+{% endblock content %}

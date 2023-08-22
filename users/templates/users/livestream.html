@@ -1,0 +1,568 @@
+<!-- {% extends "users/base.html" %} -->
+{% block title %} Live Stream {% endblock title%}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Stream</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url( 'https://t4.ftcdn.net/jpg/02/63/27/77/360_F_263277732_jKaE9Wz8BAG3n1pXvlfO7F74a7SNZGD9.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: blur(4px);
+      }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            /* background-color: #7f54ca; */
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #efe9e9;
+        }
+
+        .wall-container {
+            position:static;
+        }
+
+        .button-container {
+            justify-content: space-evenly;
+            display: flex;
+        }
+        .screen {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .screen:before {
+            content: "";
+            display: block;
+            padding-top: 770px;
+        }
+
+        .screen iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .screen-name {
+            max-width: 80px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+        }
+        .input-container {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            justify-content: center;
+        }
+
+        .input-container input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-container button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .rotate-container button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            background-color: #3e10e4;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .remove-container button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            /* opacity: 0.3; */
+            background-color: #e41010;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .bounding-box {
+            position: absolute;
+            border: 2px solid red;
+            pointer-events: none;
+        }
+
+        .detected-label {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 5px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .button {
+            width: 50%;
+            height: 50px;
+            margin: 0;
+            background-color: #534caf;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        input[type="checkbox"] {
+            transform: scale(1.5); /* Increase the scale value to make the checkbox bigger */
+            margin-right: 12px; /* Add some margin between the checkbox and label */
+        }
+
+        label {
+            font-size: 23px; /* Increase the font size for the labels */
+            color: #fff;
+        }
+
+    </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
+
+</head>
+<body>
+    <div class="background-container"></div>
+    <div class="base">
+        <nav class="navbar navbar-expand-md navbar-light " style="background-color: grey">
+            <a href="{% url 'login' %}" class="navbar-brand" style="color: aliceblue;">Boundary Area Mapping</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ml-auto">
+                  {% if user.is_authenticated %}
+                    <a href="{% url 'users-profile' %}" class="nav-item nav-link" style="color: aliceblue;">Profile</a>
+                    <a href="{% url 'logout' %}" class="nav-item nav-link" style="color: aliceblue;">Logout</a>
+                  {% else %}
+                    <a href="{% url 'login' %}" class="nav-item nav-link" style="color: aliceblue;">Sign in</a>
+                  {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <h1>Live Stream</h1>
+        <hr width="auto">
+        <div class="input-container">
+            <input type="text" name="ip" id="ip" placeholder="Enter IP Address">
+            <button id="add-screen-button">Add Screen</button>
+            <div class="rotate-container">
+            <button id="start-rotate">Start Rotate</button></div>
+            <div class="remove-container">
+            <button id="remove-button">Remove Screen</button>
+            <button id="remove-box-button">Remove Bounding Boxes</button>
+            </div>
+        </div><hr>
+        <br>
+        <div class="button-container"></div>
+        <div class="wall-container"></div>
+    </div>
+
+    <script>
+        //var screenName = 1;
+        var screenip = {};
+        var addedips={};
+        const boundingBoxes = {}; // Dictionary to store bounding box coordinates
+
+        // Get the necessary elements
+        const ipInput = document.getElementById('ip');
+        const addScreenButton = document.getElementById('add-screen-button');
+        const wallContainer = document.querySelector('.wall-container');
+        const buttonContainer = document.querySelector('.button-container');
+        const rotateButton = document.getElementById('start-rotate');
+        const removeButton = document.getElementById('remove-button');
+        const removeBounBoxButton = document.getElementById('remove-box-button');
+        
+        removeBounBoxButton.disabled=true;
+        rotateButton.disabled=true;
+        removeButton.disabled=true;
+        // removeButton.style.opacity=0.3;
+        addScreenButton.addEventListener('click', () => {
+            const ip = ipInput.value;
+            if (ip) {
+                const button = createButton(ip);
+                buttonContainer.appendChild(button);
+                ipInput.value = '';
+                // Disable IP input field and Add Screen button if the limit is reached
+                if (Object.keys(addedips).length === 4) {
+                    ipInput.disabled = true;
+                    addScreenButton.disabled = true;
+                }
+            }
+        });
+
+        
+        rotateButton.addEventListener('click', () => {
+            screenip = {};
+            const checkedBoxes = document.querySelectorAll(
+            'input[name="screens"]:checked'
+            );
+            console.log("lenth: ",checkedBoxes.length);
+            if (checkedBoxes.length===1){
+                const displayName = checkedBoxes[0].parentNode.querySelector('label').innerText;
+                const ip = checkedBoxes[0].value;
+                screenip[displayName] = ip;
+                backPauseInterval();
+                frontPauseInterval();
+                backExecute();
+                const screen = createScreen(ip);
+                wallContainer.innerHTML = '';
+                wallContainer.appendChild(screen);
+                console.log('Front Current:', checkedBoxes);
+                
+                //document.getElementById(displayName).checked = true;
+                //console.log("screenip: ",screenip);
+                return;
+            }
+            else{
+            checkedBoxes.forEach((checkbox) => {
+            const displayName = checkbox.parentNode.querySelector('label').innerText;
+            const ip = checkbox.value;
+            screenip[displayName] = ip;
+            console.log(screenip);
+            });
+            backPauseInterval()
+            frontPauseInterval();
+            frontExecute();
+            backExecute();
+        }});
+
+        removeButton.addEventListener('click', () => {
+            const checkedBoxes = document.querySelectorAll('input[name="screens"]:checked');
+
+            checkedBoxes.forEach((checkbox) => {
+                // removeButton.style.backgroundColor='red'
+                const displayName = checkbox.parentNode.querySelector('label').innerText;
+                const ip = checkbox.value;
+                checkbox.parentNode.remove();
+                delete screenip[displayName];
+                delete addedips[displayName];
+                wallContainer.innerHTML='';
+                // Enable IP input field and Add Screen button if the limit is no longer reached
+                if (Object.keys(addedips).length < 4) {
+                    ipInput.disabled = false;
+                    addScreenButton.disabled = false;
+                }
+                // Remove the bounding box coordinates
+                delete boundingBoxes[ip];
+            });
+
+            backPauseInterval();
+            frontPauseInterval();
+            frontExecute();
+            backExecute();
+            });
+
+            removeBounBoxButton.addEventListener('click', () => {
+            const checkedBoxes = document.querySelectorAll('input[name="screens"]:checked');
+
+            checkedBoxes.forEach((checkbox) => {
+                // removeButton.style.backgroundColor='red'
+                //const displayName = checkbox.parentNode.querySelector('label').innerText;
+                const ip = checkbox.value;
+                // Remove the bounding box coordinates
+                if(boundingBoxes[ip]){
+                delete boundingBoxes[ip];
+                console.log("deleted: ",boundingBoxes);
+                }
+            });
+
+            backPauseInterval();
+            frontPauseInterval();
+            frontExecute();
+            backExecute();
+            });
+
+            var audio = new Audio('https://www.fesliyanstudios.com/soundeffects-download.php?id=4435');
+                 
+            function createButton(ip) {
+                const displayName = prompt('Enter screen name for ' + ip); // Prompt the user for the screen name
+                if (!displayName) return; // Return if the user cancels the prompt
+                if (displayName in addedips) {
+                    alert('Screen name already exists. Please enter a different screen name.');
+                    return;
+                }
+                else{
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'screens';
+                checkbox.value = ip;
+                checkbox.id = displayName;
+                const label = document.createElement('label');
+                label.htmlFor = displayName;
+                label.innerText = displayName; // Use the entered screen name
+                const br = document.createElement('br');
+
+                const container = document.createElement('div');
+                container.appendChild(checkbox);
+                container.appendChild(label);
+                container.appendChild(br);
+                addedips[displayName] = String(ip);
+                rotateButton.disabled = false;
+                removeButton.disabled = false;
+                removeBounBoxButton.disabled = false;
+                // screenName++;
+                console.log("added ip's: ", addedips);
+
+                if (Object.keys(addedips).length === 1) {
+                    screenip[displayName] = ip;
+                    backPauseInterval();
+                    //frontPauseInterval();
+                    //frontExecute();
+                    const screen = createScreen(ip);
+                    wallContainer.innerHTML = '';
+                    wallContainer.appendChild(screen);
+                    console.log('Front Current:', ip);
+                    backExecute();
+                    //document.getElementById(displayName).checked = true;
+                    console.log(screenip);
+                }
+                return container;
+            }
+        }
+
+    // Variables for drawing the bounding box
+        let isDrawing = false;
+        let startX, startY, endX, endY;
+        let boundingBox;
+
+        function createScreen(ip) {
+            const screen = document.createElement('div');
+            screen.classList.add('screen');;
+
+            screen.innerHTML += `<iframe src="http://${ip}" frameborder="0" allowfullscreen></iframe>`;
+            const screenName = document.createElement('div');
+            screenName.classList.add('screen-name');
+
+            // Retrieve the screen name from the addedips dictionary based on the IP address
+            const currentScreenName = Object.keys(addedips).find(key => addedips[key] === ip);
+            screenName.innerText = currentScreenName || '';
+
+            // Position the screen name in the top left corner
+            screenName.style.top = '10px';
+            screenName.style.left = '10px';
+
+            screen.appendChild(screenName);
+
+            // Get the existing bounding boxes for the IP address
+            const boxes = boundingBoxes[ip] || [];
+
+            // Draw the existing bounding boxes on the screen
+            boxes.forEach(box => {
+                const boundingBox = document.createElement('div');
+                boundingBox.classList.add('bounding-box');
+                boundingBox.style.left = box[0] + 'px';
+                boundingBox.style.top = box[1] + 'px';
+                boundingBox.style.width = box[2] - box[0] + 'px';
+                boundingBox.style.height = box[3] - box[1] + 'px';
+                screen.appendChild(boundingBox);
+            });
+
+
+            // Prevent default dragging behavior on the iframe
+            const iframe = screen.querySelector('iframe');
+            iframe.addEventListener('dragstart', (event) => {
+                event.preventDefault();
+            });
+
+            screen.addEventListener('mousedown', startDrawing);
+            screen.addEventListener('mousemove', drawBoundingBox);
+            screen.addEventListener('mouseup', stopDrawing);
+
+            const parentOffsetLeft = screen.offsetLeft - screen.getBoundingClientRect().left;
+            const parentOffsetTop = screen.offsetTop - screen.getBoundingClientRect().top;
+
+
+            function startDrawing(event) {
+                frontPauseInterval();
+                backPauseInterval();
+                if (boxes.length < 2) { // Check if the maximum limit has been reached
+                    isDrawing = true;
+
+                    const rect = screen.getBoundingClientRect();
+                    startX = event.clientX - rect.left;
+                    startY = event.clientY - rect.top;
+                    boundingBox = document.createElement('div');
+                    boundingBox.classList.add('bounding-box');
+                    screen.appendChild(boundingBox);
+                }
+                }
+
+            function drawBoundingBox(event) {
+                if (!isDrawing) return;
+                const rect = screen.getBoundingClientRect();
+                endX = event.clientX - rect.left;
+                endY = event.clientY - rect.top;
+
+                const minX = Math.min(startX, endX);
+                const minY = Math.min(startY, endY);
+                const maxX = Math.max(startX, endX);
+                const maxY = Math.max(startY, endY);
+
+                boundingBox.style.left = minX + 'px';
+                boundingBox.style.top = minY + 'px';
+                boundingBox.style.width = maxX - minX + 'px';
+                boundingBox.style.height = maxY - minY + 'px';
+            }
+
+
+            function stopDrawing() {
+                isDrawing = false;
+                frontExecute();
+                backExecute();
+                audio.pause();
+                // Send the bounding box coordinates to the server
+                if (startX !== endX && startY !== endY) {
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/livestream/', true);
+                xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                if (boxes.length < 2){
+                const x1 = Math.min(startX, endX);
+                const y1 = Math.min(startY, endY);
+                const x2 = Math.max(startX, endX);
+                const y2 = Math.max(startY, endY);
+                console.log(x1,y1,x2,y2);
+                if (x1&&y1&&x2&&y2>200){
+                const box = [Math.round(x1), Math.round(y1), Math.round(x2), Math.round(y2)];
+                console.log(box);
+                boxes.push(box);
+                boundingBoxes[ip] = boxes;
+                //console.log('len of current: ', boundingBoxes[ip].length);
+                //xhr.send(`ip=${ip}&boxes=${JSON.stringify(boundingBoxes[ip])}`);
+                }
+                }
+                
+            }
+        }
+            return screen;
+        }
+
+        //for frontend to rotate the displaying ip's
+
+        let frontID;   
+        function frontExecute() {
+            const frontips = Object.values(screenip); // Get all the IP addresses from the dictionary
+            let frontindex = 0; // Initialize the IP address index
+            frontID = setInterval(() => {
+                if (frontips.length > 0) {
+                const ip = frontips[frontindex];
+                const screen = createScreen(ip);
+                wallContainer.innerHTML = '';
+                wallContainer.appendChild(screen);
+                console.log('Front Current:', ip);
+                frontindex = (frontindex + 1) % frontips.length; // Update the IP address index, wrap around to 0 if it exceeds the array length
+                }
+            }, 5000); // Adjust the interval time as desired (in milliseconds)
+            }
+
+        //for sending data to backend and recieving
+        let backendID;   
+        function backExecute() {
+            const backips = Object.values(screenip); // Get all the IP addresses from the dictionary
+            let backindex = 0; // Initialize the IP address index
+            backendID = setInterval(() => {
+                if (backips.length > 0) {
+                const ip = backips[backindex];
+                const ipsend = new XMLHttpRequest(); // Create a new instance of the XMLHttpRequest
+                ipsend.open('POST', '/livestream/', true); // Open the request
+                ipsend.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                ipsend.onload = function () { // Receive the "detected" label and bounding box coordinates
+                if (ipsend.status === 200) {
+                    var response = JSON.parse(ipsend.responseText);
+                    var results = response.results;
+                    console.log(results);
+                    results.forEach((result, boxIndex) => {
+                        var detected = result.detected;
+                        var detbox = result.box;
+                        var detip=result.ip;
+                        if (detected) {
+                        // Person detected
+                        audio.play();
+                        frontPauseInterval();
+                        const screen = createScreen(ip);
+                        wallContainer.innerHTML = '';
+                        wallContainer.appendChild(screen);
+                        const detectedLabel = document.createElement('div');
+                        detectedLabel.classList.add('detected-label');
+                        detectedLabel.innerText = 'Detected';
+                        const boundingBoxes = screen.querySelectorAll('.bounding-box');
+                        const boundingBox = boundingBoxes[boxIndex];
+                        if (boundingBox) {
+                            boundingBox.appendChild(detectedLabel);
+                            boundingBox.style.left = detbox[0] + 'px';
+                            boundingBox.style.top = detbox[1] + 'px';
+                            boundingBox.style.width = detbox[2] - detbox[0] + 'px';
+                            boundingBox.style.height = detbox[3] - detbox[1] + 'px';
+                        }
+                        }
+                        
+                    });
+                    }
+                };
+                if(boundingBoxes[ip]){
+                    ipsend.send(`screen=${Object.keys(screenip).find(key => screenip[key] === ip)}&ip=${ip}&boxes=${JSON.stringify(boundingBoxes[ip])}`); // Send the request with the IP address
+                }
+                console.log('backend:', ip);
+                backindex = (backindex + 1) % backips.length; // Update the IP address index, wrap around to 0 if it exceeds the array length
+                }
+            }, 1800); // Adjust the interval time as desired (in milliseconds)
+            }
+
+       // To pause the front interval
+        function frontPauseInterval() {
+            console.log("front PAUSED!!!")
+            clearInterval(frontID);
+        }
+        //To pause the back interval
+        function backPauseInterval() {
+            console.log("back PAUSED!!!")
+            clearInterval(backendID);
+        }
+</script>
+    
+</body>
+</html>
+{% endblock content %}

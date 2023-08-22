@@ -1,0 +1,155 @@
+{% extends "users/base.html" %}
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            overflow-x: hidden; /* Add this line to hide horizontal scroll */
+        }
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url( 'https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            filter: blur(4px);
+        }
+
+        .container {
+            margin: 0 auto;
+            text-align: center;
+            margin-top: 50px;
+            max-width: 100%; /* Change max-width to 100% */
+            padding: 0 20px; /* Add some padding to avoid content touching the edges */
+        }
+
+        .account-img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .form-group {
+            text-align: left;
+            /* margin-top: 10px; */
+            margin-bottom: 7px;
+            color: aliceblue;
+        }
+
+        .form-content {
+            margin-top: 20px;
+            
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .small {
+            font-size: 14px;
+        }
+
+        a {
+            color: grey;
+            text-decoration: none;
+        }
+
+        hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: none;
+            border-top: 1px solid #dddddd;
+        }
+
+        .btn-dark {
+            background-color: grey;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            margin-right: 10px;
+        }
+
+        .btn-dark:hover {
+            background-color: grey;
+        }
+     
+    </style>
+    <div class="background-container"></div>
+    <div class="base">
+        <nav class="navbar navbar-expand-md navbar-light " style="background-color: grey">
+            <a href="{% url 'login' %}" class="navbar-brand" style="color: aliceblue;">Boundary Area Mapping</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav ml-auto">
+                  {% if user.is_authenticated %}
+                    <a href="{% url 'livestream' %}" class="nav-item nav-link" style="color: aliceblue;">Livestream</a>
+                    <a href="{% url 'logout' %}" class="nav-item nav-link" style="color: aliceblue;">Logout</a>
+                  {% else %}
+                    <a href="{% url 'login' %}" class="nav-item nav-link" style="color: aliceblue;">Sign in</a>
+                  {% endif %}
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="row my-3 p-3" style="display: flex;flex-direction: row;justify-content: center;">
+        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }}" alt="User Avatar">
+    </div>
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="container">
+        <div class="form-content"style="
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        align-items: flex-start;
+        flex-wrap: wrap;">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="small mb-1" style="font-size: 17px;"><b>Username:</b></label>
+                    {{ user_form.username }}
+                </div>
+                <div class="form-group">
+                    <label class="small mb-1" style="font-size: 17px;"><b>Email:</b></label>
+                    {{ user_form.email }}
+                </div>
+                <div class="form-group">
+                    <a href="{% url 'password_change' %}" style="color: rgb(219, 84, 40);font-size: 17px;"><b>Change Password</b></a>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label class="small mb-1" style="font-size: 17px;"><b>Change Avatar:</b></label>
+                    {{ profile_form.avatar }}
+                </div>
+                <div class="form-group">
+                    <label class="small mb-1" style="font-size: 17px;"><b>Bio:</b></label>
+                    {{ profile_form.bio }}
+                </div>
+                <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+                <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
