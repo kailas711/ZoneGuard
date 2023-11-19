@@ -1,27 +1,6 @@
-# AI Surveillance 
-This web app has been developed as part of assesment during Protosem@Forge  , using the popular Django framework and JavaScript for the frontend. This mini-app can be easily integrated into a bigger system project that needs to have a registration and login system and that need AI surveilence.
+# 🚀 AI Surveillance Web App
 
-### Basic Features of The App
-    
-* Register – Users can register and create a new profile
-
-* Login - Registered users can login using username and password
-
-* Social Apps Login – Users can login using their GitHub or Google account
-
-* User Profile - Once logged in, users can create and update additional information such as avatar and bio in the profile page
-
-* Update Profile – Users can update their information such as username, email, password, avatar and bio
-
-* Remember me – Cookie Option, users don’t have to provide credentials every time they hit the site
-
-* Forgot Password – Users can easily retrieve their password if they forget it
-  
-* Admin Panel – admin can CRUD users
-
-* Integrate CCTV/IP stream for AI based object detection and alarm for industrial saftey
-
-![image](https://github.com/kailas711/Boundary_Area_Mapping/assets/89206677/1ff76838-1162-44d0-8083-63ff4d7ac493)
+Crafted during Protosem@Forge using Django and JavaScript. Seamlessly integrates into larger projects.
 
 ### Quick Start
 To get this project up and running locally on your computer follow the following steps.
@@ -35,4 +14,30 @@ $ python manage.py runserver
 ```
    
 3. Open a browser and go to http://localhost:8000/
+
+![image](https://github.com/kailas711/Boundary_Area_Mapping/assets/89206677/1ff76838-1162-44d0-8083-63ff4d7ac493)
+
+
+## 🌟 Key Features
+
+* **Register**: Create a profile effortlessly.
+  
+* **Login**: Secure access with username and password.
+
+* **Social Login**: Connect with GitHub or Google.
+
+* **Profile**: Personalize with avatar and bio.
+
+* **Remember me**: Hassle-free login with cookies.
+
+* **Forgot Password**: Easy recovery.
+
+* **Admin Panel**: CRUD operations for user management.
+* Integrate CCTV/IP stream for AI based object detection and alarm for industrial saftey
+
+Experience the power of AI surveillance with ease! 🌐✨👁️
+
+
+
+
 
