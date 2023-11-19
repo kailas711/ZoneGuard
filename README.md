@@ -1,4 +1,4 @@
-# Django-registration-and-login-system
+# AI Surveillance 
 This web app has been developed as part of assesment during Protosem@Forge  , using the popular Django framework and JavaScript for the frontend. This mini-app can be easily integrated into a bigger system project that needs to have a registration and login system and that need AI surveilence.
 
 ### Basic Features of The App
