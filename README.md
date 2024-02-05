@@ -15,8 +15,7 @@ $ python manage.py runserver
    
 3. Open a browser and go to http://localhost:8000/
 
-![image](https://github.com/kailas711/Boundary_Area_Mapping/assets/89206677/1ff76838-1162-44d0-8083-63ff4d7ac493)
-
+![image](https://github.com/kailas711/Django-Unchained-Vision/assets/89206677/2087145b-ffe0-43fa-9229-c94ab816f5b3)
 
 ## 🌟 Key Features
 
