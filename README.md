@@ -7,7 +7,7 @@ Crafted during Protosem@Forge using Django and JavaScript. Seamlessly integrates
 To get this project up and running locally on your computer follow the following steps.
 
 1. Set up a python virtual environment
-2. Clone the git repo `git clone`
+2. Clone the git repo `git clone https://github.com/kailas711/ZoneGuard.git`
 3. Run the following commands
 
 ```
