@@ -13,13 +13,13 @@ from django.views.decorators.csrf import csrf_exempt
 import cv2
 import numpy as np
 from PIL import Image
-import torch
 import json
 from datetime import datetime
 
-# Load YOLOv5 model
-model = torch.hub.load('ultralytics/yolov5', 'yolov5m', pretrained=True)
-model.conf = 0.5
+from ultralytics import YOLO
+
+# Load a model
+model = YOLO("yolov8n.pt")  # load a pretrained model (recommended for training)
 
 def home(request):
     return render(request, 'users/home.html')
@@ -155,9 +155,12 @@ def livestream(request):
             # Convert the cropped frame to PIL Image
             pil_image = Image.fromarray(danger_zone)
 
-            # Perform object detection using YOLOv5
+            # Perform object detection using YOLOv8
             results = model(pil_image)
-            labels = results.xyxyn[0].cpu().numpy()[:, -1]
+            # print(results)
+            # labels = results.xyxyn[0].cpu().numpy()[:, -1]
+            result = next(iter(results))
+            labels = result.boxes.cls.cpu().numpy()
             classes = model.names[int(labels[0])] if len(labels) > 0 else None
 
             # Check if a person is detected in the danger zone
@@ -174,8 +177,8 @@ def livestream(request):
 
             # Add the detection result to the list
             detection_results.append({'detected': detected, 'box': box})
-            print(detection_results)
-            print(type(detection_results))
+            # print(detection_results)
+            # print(type(detection_results))
 
             cap.release()
 
@@ -194,7 +197,6 @@ def log_detection(ip, screen):
         "ip_address": ip,
         "screen": screen
     }
-
  
     log_file_path = "log_file.json"  
 

@@ -1,4 +1,4 @@
-<!-- {% extends "users/base.html" %} -->
+{% extends "users/base.html" %}
 {% block title %} Login Page {% endblock title%}
 {% block content %}
 <style>
@@ -9,105 +9,99 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        background-image: url( 'https://img.freepik.com/premium-photo/abstract-geometric-background-with-connecting-points-lines-abstract-black-digital-background-network-concept-structure-big-data-complex-with-compounds-3d-rendering_634443-655.jpg');
+        background-image: url('https://i.gifer.com/origin/56/56aea094612cfb30d2864d04782aa48d_w200.gif');
         background-size: cover;
         background-repeat: no-repeat;
         filter: blur(4px);
-      }
+    }
+
     .container {
-            max-width: 570px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-top: 100px;
-        }
-        a:hover {
-            text-decoration: none;
-        }
-        h1 {
-            color: white;
-            text-align: center;
-            margin-top: 50px;
-            cursor: pointer;
-        }
+        max-width: 30vw;
+        margin: 0 auto;
+        padding: 2vw;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 12vw;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    .kondas-button {
+        display: inline-block;
+        position: absolute;
+        top: 8vh;
+        left: 34vw;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+        color: white;
+    }
 </style>
 <a href="{% url 'users-home' %}">
-    <h1>HOME</h1>
+    <h1 class="kondas-button">AI Surveillance Web App🚀</h1>
 </a>
 <div class="background-container"></div>
-                <div class="container">
-                    <!-- <div class="card shadow-lg border-0 rounded-lg mt-0 mb-3"> -->
-                        <div class="card-header justify-content-center" style="box-shadow: none;">
-                          <h3 class="font-weight-light my-1 text-center" >Sign In</h3>
-                        </div>
-                        {% if form.errors %}
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div id="form_errors">
-                                    {% for key, value in form.errors.items %}
-                                        <strong>{{ value }}</strong>
-                                    {% endfor %}
-                                </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        {% endif %}
-                        <div class="card-body">
-                            <form method="POST">
-                                {% csrf_token %}
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        {% comment %} <div class="form-group">
-                                            <a href="{% url 'social:begin' 'github' %}"
-                                                   class="btn btn-link btn-lg active btn-block">Sign in with GitHub</a>
-                                            <a href="{% url 'social:begin' 'google-oauth2' %}"
-                                                   class="btn btn-link btn-lg active btn-block">Sign in with Google</a>
-                                            <hr>
-                                            <p class="text-center"><strong>OR</strong></p>
-                                            <hr> {% endcomment %}
-                                            <label class="small mb-1" >Username</label>
-                                            {{ form.username }}
-                                        {% comment %} </div> {% endcomment %}
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                          <label class="small mb-1">Password</label>
-                                          {{ form.password }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                            <!-- Add a Remember me functionality -->
-                                            {{ form.remember_me }}
-                                            <label> Remember me</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
-                                        <div class="form-group mt-0 mb-1">
-                                          <button name="login" class="col-md-12 btn btn-dark" id="login">Sign in</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center" >
-                            <div class="small">
-                                <a href="{% url 'users-register' %}" >Don't have an account yet? Go to signup</a><br>
-                                <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
-                            </div>
-                        </div>
+<div class="container">
+    <div class="card-header justify-content-center" style="box-shadow: none;">
+        <h3 class="font-weight-light my-1 text-center">Sign In</h3>
+    </div>
+    {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="form-group">
+                        <label class="small mb-1">Username</label>
+                        {{ form.username }}
                     </div>
                 </div>
             </div>
+            <div class="form-row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="form-group">
+                        <label class="small mb-1">Password</label>
+                        {{ form.password }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="form-group">
+                        {{ form.remember_me }}
+                        <label class="small"> Remember me</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="form-group mt-0 mb-1">
+                        <button name="login" class="col-md-12 btn btn-dark" id="login">Sign in</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer text-center">
+        <div class="small">
+            <a href="{% url 'users-register' %}">Don't have an account yet? Go to signup</a><br>
+            <a href="{% url 'password_reset' %}"><i>Forgot Password?</i></a>
         </div>
-     </div>
+    </div>
+</div>
 {% endblock content %}

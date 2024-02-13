@@ -24,10 +24,10 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: url('https://png.pngtree.com/background/20210716/original/pngtree-black-glitter-neon-lines-abstract-background-picture-image_1344492.jpg');
+            background-image: url('https://i.makeagif.com/media/7-06-2019/o38bLY.gif');
             background-size: cover;
             background-repeat: no-repeat;
-            filter: blur(5px);
+            filter: blur(4px);
         }
 
         .get-started-button {
@@ -82,7 +82,7 @@
         .gif-container {
             position: fixed;
             top: 30vh;
-            left: -3vw;
+            left: 5vw;
             width: 50vw;
             height: auto;
             display: flex;
@@ -91,7 +91,7 @@
         }
 
         .gif-container img {
-            width: 80%;
+            width: 100%;
             height: auto;
             object-fit: cover;
         }
@@ -122,21 +122,21 @@
 
         .about {
             position: absolute;
-            width: 43vw;
+            width: 40vw;
             top: 58vh;
             left: 56vw;
             transform: translateY(-50%);
-            font-size: 1.5vw;
+            font-size: 1.0vw;
             line-height: 1.2;
             color: #f9f5f5;
             text-align: center;
         }
     </style>
-    <title>Boundary Area Mapping</title>
+    <title>Kondas</title>
 </head>
 <body>
 <a href="{% url 'users-home' %}">
-    <h1>Boundary Area Mapping</h1>
+    <h1>AI Surveillance Web App🚀</h1>
 </a>
 <div class="background-container"></div>
 {% if user.is_authenticated %}
@@ -147,16 +147,16 @@
     <button class="sign-in-button" onclick="location.href='{% url 'login' %}'"><b>Sign in</b></button>
 {% endif %}
 <div class="gif-container">
-    <img src='https://storage.googleapis.com/deepnote-publishing-bucket/thumb/281704bd-67a3-4631-b28f-2d989f188fe5-thumb.gif' alt="Not found!!!">
+    <img src='https://miro.medium.com/v2/resize:fit:1000/1*NLnnf_M4Nlm4p1GAWrWUCQ.gif' alt="Not found!!!">
 </div>
 <div class="quote-container">
-    <span class="quote-line1">Stay VIGILANT,</span>
+    <span class="quote-line1">Stay VIGILANT!</span>
     <span class="quote-line2">Stay SECURE!</span>
 </div>
 <div class="about">
-    <p>The application is designed to enhance industrial safety by detecting potential hazards through live video streams. 
-      It utilizes YOLOv5, a state-of-the-art object detection model, to analyze 
-      frames from the video and raise an alarm in case of any detected objects within a specified bounding box.</p>
+    <p>This Project was done when i was in 3rd year using Django, Ultralytisc YOLOv8n and HTML/CSS/Javascript templates. The goal behind this work is to make a intruder alert system that allows people to "draw" on screen to mark regions in a place that are prohibited. The system detects people and raise alarm sound.
+    Mouse movements are recorded via Javascript to mark the regions. The app takes in IP camera stream as input. For this pourpose i've used "Ip Webcam App" from playstore.
+    </p>
 </div>
 </body>
 </html>

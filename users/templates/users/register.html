@@ -1,42 +1,45 @@
-<!-- {% extends "users/base.html" %} -->
+{% extends "users/base.html" %}
 {% block title %} Register Page {% endblock title%}
 {% block content %}
     <style>
-        .background-container {
+    .background-container {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         z-index: -1;
-        background-image: url( 'https://coolbackgrounds.io/images/backgrounds/index/compute-ea4c57a4.png');
+        background-image: url('https://i.gifer.com/origin/56/56aea094612cfb30d2864d04782aa48d_w200.gif');
         background-size: cover;
         background-repeat: no-repeat;
         filter: blur(4px);
-      }
-        .container {
-            max-width: 570px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            margin-top: 100px;
-        }
-        a:hover {
-            text-decoration: none;
-        }
-        h1 {
-            color:white;
-            text-align: center;
-            margin-top: 50px;
-            cursor: pointer;
-        }
+    }
+
+    .container {
+        max-width: 40vw;
+        margin: 0 auto;
+        padding: 2vw;
+        background-color: #ffffff;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 10vh;
+    }
+
+    a:hover {
+        text-decoration: none;
+    }
+
+    h1 {
+        color: white;
+        text-align: center;
+        margin-top: 5vh;
+        cursor: pointer;
+    }
     </style>
     <div class="background-container"></div>
     <a href="{% url 'users-home' %}">
-        <h1>Boundary Area Mapping</h1>
+        <h1>AI Surveillance Web App🚀</h1>
     </a>
     <div class="container">
         <div class="card-header justify-content-center" style="box-shadow: none;">

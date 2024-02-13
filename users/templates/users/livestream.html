@@ -1,4 +1,4 @@
-<!-- {% extends "users/base.html" %} -->
+{% extends "users/base.html" %}
 {% block title %} Live Stream {% endblock title%}
 {% block content %}
 
@@ -10,6 +10,7 @@
         body {
             font-family: Arial, sans-serif;
         }
+    
         .background-container {
             position: fixed;
             top: 0;
@@ -17,34 +18,35 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            background-image: url( 'https://t4.ftcdn.net/jpg/02/63/27/77/360_F_263277732_jKaE9Wz8BAG3n1pXvlfO7F74a7SNZGD9.jpg');
+            background-image: url('https://wallpapercave.com/wp/wp2757874.gif');
             background-size: cover;
             background-repeat: no-repeat;
             filter: blur(4px);
-      }
-
+        }
+    
         .container {
             max-width: 100%;
             margin: 0 auto;
-            padding: 20px;
-            /* background-color: #7f54ca; */
+            padding: 2vh;
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-
+    
         h1 {
             text-align: center;
             color: #efe9e9;
+            margin-top: 2vh;
         }
-
+    
         .wall-container {
-            position:static;
+            position: static;
         }
-
+    
         .button-container {
             justify-content: space-evenly;
             display: flex;
         }
+    
         .screen {
             position: relative;
             display: flex;
@@ -52,12 +54,13 @@
             align-items: center;
             overflow: hidden;
         }
+    
         .screen:before {
             content: "";
             display: block;
-            padding-top: 770px;
+            padding-top: 56.25%; /* Maintain a 16:9 aspect ratio for the video */
         }
-
+    
         .screen iframe {
             position: absolute;
             top: 0;
@@ -66,52 +69,54 @@
             height: 100%;
             pointer-events: none;
         }
-
+    
         .screen-name {
-            max-width: 80px;
+            max-width: fit-content;
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 1vh;
+            right: 1vh;
             color: white;
             background-color: rgba(0, 0, 0, 0.5);
-            padding: 5px;
+            padding: 0.5vh;
         }
+    
         .input-container {
             display: flex;
             align-items: flex-start;
-            margin-bottom: 20px;
+            margin-bottom: 2vh;
             justify-content: center;
         }
-
+    
         .input-container input[type="text"] {
-            padding: 10px;
-            width: 200px;
+            padding: 1vh;
+            width: 20vw;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 30px;
         }
-
+    
         .input-container button {
-            padding: 10px 20px;
-            margin-left: 10px;
+            padding: 1vh 2vh;
+            margin-left: 2vh;
             background-color: #4CAF50;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+    
         .rotate-container button {
-            padding: 10px 20px;
-            margin-left: 10px;
+            padding: 1vh 2vh;
+            margin-left: 2vh;
             background-color: #3e10e4;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+    
         .remove-container button {
-            padding: 10px 20px;
-            margin-left: 10px;
-            /* opacity: 0.3; */
+            padding: 1vh 2vh;
+            margin-left: 2vh;
             background-color: #e41010;
             color: #fff;
             border: none;
@@ -123,21 +128,22 @@
             border: 2px solid red;
             pointer-events: none;
         }
-
+    
         .detected-label {
             position: absolute;
-            top: 5px;
-            left: 5px;
+            top: 1vh;
+            left: 1vh;
             background-color: #4CAF50;
             color: #fff;
-            padding: 5px;
+            padding: 0.5vh;
             border-radius: 3px;
             font-weight: bold;
-            font-size: 14px;
+            font-size: 1vh;
         }
+    
         .button {
             width: 50%;
-            height: 50px;
+            height: 4vh;
             margin: 0;
             background-color: #534caf;
             color: #fff;
@@ -148,18 +154,31 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+    
         input[type="checkbox"] {
             transform: scale(1.5); /* Increase the scale value to make the checkbox bigger */
-            margin-right: 12px; /* Add some margin between the checkbox and label */
+            margin-right: 1vh; /* Add some margin between the checkbox and label */
         }
-
+    
         label {
-            font-size: 23px; /* Increase the font size for the labels */
+            font-size: 3vh; /* Increase the font size for the labels */
             color: #fff;
         }
-
+    
+        /* Navbar Styles */
+        .navbar {
+            background-color: #808080;
+            padding: 0;
+        }
+    
+        .navbar-brand {
+            color: #ffffff;
+            font-size: 3vh;
+            margin-right: 5vh;
+        }
     </style>
-
+    
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.js"></script>
 
 </head>
@@ -167,7 +186,7 @@
     <div class="background-container"></div>
     <div class="base">
         <nav class="navbar navbar-expand-md navbar-light " style="background-color: grey">
-            <a href="{% url 'login' %}" class="navbar-brand" style="color: aliceblue;">Boundary Area Mapping</a>
+            <a href="{% url 'login' %}" class="navbar-brand" style="color: aliceblue;">HOME</a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -192,7 +211,7 @@
             <div class="rotate-container">
             <button id="start-rotate">Start Rotate</button></div>
             <div class="remove-container">
-            <button id="remove-button">Remove Screen</button>
+            <button id="remove-button" style="margin-bottom: 2vh;">Remove Screen</button>
             <button id="remove-box-button">Remove Bounding Boxes</button>
             </div>
         </div><hr>
@@ -248,6 +267,7 @@
                 backPauseInterval();
                 frontPauseInterval();
                 backExecute();
+                //frontExecute();
                 const screen = createScreen(ip);
                 wallContainer.innerHTML = '';
                 wallContainer.appendChild(screen);
@@ -411,10 +431,6 @@
             screen.addEventListener('mousedown', startDrawing);
             screen.addEventListener('mousemove', drawBoundingBox);
             screen.addEventListener('mouseup', stopDrawing);
-
-            const parentOffsetLeft = screen.offsetLeft - screen.getBoundingClientRect().left;
-            const parentOffsetTop = screen.offsetTop - screen.getBoundingClientRect().top;
-
 
             function startDrawing(event) {
                 frontPauseInterval();
