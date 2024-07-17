@@ -1,9 +1,7 @@
 # ZoneGuard
 ### 🚀 AI Surveillance Web App
 
-Crafted during Protosem@Forge using Django, Python and JavaScript. 
-
-Seamlessly integrates into larger projects.
+Crafted during Protosem@Forge using Django, Python and JavaScript.Seamlessly integrates into larger projects.
 
 ### Quick Start
 To get this project up and running locally on your computer follow the following steps.
